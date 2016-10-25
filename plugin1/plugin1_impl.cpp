@@ -3,20 +3,21 @@
 
 #include "../PluginX/plugin_ifc.h"
 #include <boost/dll/alias.hpp>
-#include <boost/shared_ptr.hpp>
 
 namespace my_namespace {
 
 	class my_plugin_sum : public plugin_ifc {
-		std::string who_loaded_me;
 	public:
-		my_plugin_sum(std::string loader_name) : who_loaded_me{loader_name} {
+		my_plugin_sum(std::string loader_name) : plugin_ifc(loader_name) 
+		{
 			std::cout << "Constructing my_plugin_sum\n";
 		}
-		std::string name() const {
-			return "sum plugin. Loaded by " + who_loaded_me;
+		std::string name() const
+		{
+			return "sum plugin. Loaded by " + loader_name;
 		}
-		float calculate(float x, float y) {
+		float calculate(float x, float y) 
+		{
 			return x + y;
 		}
 		~my_plugin_sum() {
