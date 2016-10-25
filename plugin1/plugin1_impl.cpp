@@ -4,6 +4,7 @@
 #include "../PluginX/plugin_ifc.h"
 #include <boost/dll/alias.hpp>
 #include <boost/shared_ptr.hpp>
+
 namespace my_namespace {
 
 	class my_plugin_sum : public plugin_ifc {

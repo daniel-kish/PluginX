@@ -32,9 +32,7 @@ try {
 	using namespace std::string_literals;
 	using std::begin;
 	using std::end;
-	using plugin_ptr = boost::shared_ptr<plugin_ifc>;
-	using factory = plugin_ifc*(std::string);
-
+	
 	const std::string app_name("MainApp");
 	
 	if (argc != 2) {
@@ -66,17 +64,20 @@ try {
 		}
 	}
 	
+	using plugin_ptr = std::unique_ptr<plugin_ifc>;
+	using factory = plugin_ifc* (std::string);
+
 	std::vector<plugin_ptr> plugins;
 	for (auto& lib : libs)
 	{
 		factory* creator = lib.get_alias<factory>("create_plugin"s);
-		boost::shared_ptr<plugin_ifc> plugin(creator(app_name));
+		plugin_ptr plugin(creator(app_name));
 		if (!plugin)
 			std::cerr << "unable to create an instance of plugin from " << lib.location() << '\n';
 		plugins.push_back(std::move(plugin));
 	}
 
-	for (auto plugin : plugins)
+	for (auto& plugin : plugins)
 		std::cout << "name: " << plugin->name() << " : " << plugin->calculate(2.0, 3.0) << '\n';
 }
 catch (const fs::filesystem_error& er)
