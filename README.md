@@ -1,5 +1,5 @@
 # PluginX
-##Plugin eXercises
+## Plugin eXercises
 
 Exercises on plugin dynamic loading usig **Boost.DLL library**.
 Dependencies: only the Boost library.
