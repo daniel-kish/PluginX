@@ -1,4 +1,5 @@
 #include <string>
+#include <iomanip>
 #include <iostream>
 
 #include "../PluginX/plugin_ifc.h"
@@ -6,28 +7,28 @@
 
 namespace my_namespace {
 
-	class my_plugin_prod : public plugin_ifc {
+	class plugin_prod : public plugin_ifc {
 	public:
-		my_plugin_prod(std::string loader_name) : plugin_ifc(loader_name) 
+		plugin_prod(std::string loader_name) : plugin_ifc(loader_name) 
 		{
-			std::cout << "Constructing my_plugin_prod\n";
+			std::cout << "Constructing plugin_prod\n";
 		}
-		std::string name() const 
+		std::string name() const
 		{
-			return "prod plugin. Loaded by " + loader_name;
+			return "prod plugin. Loaded by \"" + loader_name + "\"";
 		}
 		float calculate(float x, float y) 
 		{
 			return x * y;
 		}
-		~my_plugin_prod() {
-			std::cout << "Destructing my_plugin_prod\n";
+		~plugin_prod() {
+			std::cout << "Destructing plugin_prod\n";
 		}
 		// Factory method
 		static plugin_ifc* create(std::string loader_name) {
-			return new my_plugin_prod(loader_name);
+			return new plugin_prod(loader_name);
 		}
 	};
 } // namespace my_namespace
 
-BOOST_DLL_ALIAS(my_namespace::my_plugin_prod::create, create_plugin)
+BOOST_DLL_ALIAS(my_namespace::plugin_prod::create, create_plugin)
